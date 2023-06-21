@@ -5,7 +5,7 @@ import { AuthContext, FirebaseContext } from "../../store/context";
 import { getAuth } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const { firebase } = useContext(FirebaseContext);
@@ -35,7 +35,7 @@ const Create = () => {
       });
 
       console.log("Product added successfully");
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log("Error adding product:", error);
     }

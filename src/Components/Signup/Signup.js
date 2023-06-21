@@ -1,16 +1,20 @@
-import React, { useState, useContext } from 'react';
-import Logo from '../../olx-logo.png';
-import './Signup.css';
-import { FirebaseContext } from '../../store/context';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import Logo from "../../olx-logo.png";
+import "./Signup.css";
+import { FirebaseContext } from "../../store/context";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const [userName, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [userName, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const { firebase } = useContext(FirebaseContext);
   const navigate = useNavigate();
 
@@ -26,8 +30,8 @@ export default function Signup() {
         return updateProfile(auth.currentUser, { displayName: userName });
       })
       .then(() => {
-        console.log('Profile updated successfully');
-        return addDoc(collection(db, 'users'), {
+        console.log("Profile updated successfully");
+        return addDoc(collection(db, "users"), {
           id: user.uid,
           username: userName,
           phone: phone,
@@ -39,21 +43,20 @@ export default function Signup() {
       .catch((error) => {
         console.log(error);
       });
-  }
-  
+  };
 
   return (
     <div>
       <div className="signupParentDiv">
-        <img width="200px" height="200px" src={Logo} alt='Olx logo'></img>
+        <img width="200px" height="200px" src={Logo} alt="Olx logo"></img>
         <form onSubmit={handleSubmit}>
           <label htmlFor="fname">Username</label>
           <br />
           <input
             className="input"
             type="text"
-            value={userName} 
-            onChange={(e)=>setUsername(e.target.value)}
+            value={userName}
+            onChange={(e) => setUsername(e.target.value)}
             id="fname"
             name="name"
             defaultValue="John"
@@ -64,8 +67,8 @@ export default function Signup() {
           <input
             className="input"
             type="email"
-            value={email} 
-            onChange={(e)=>setEmail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             id="fname"
             name="email"
             defaultValue="John"
@@ -76,8 +79,8 @@ export default function Signup() {
           <input
             className="input"
             type="number"
-            value={phone} 
-            onChange={(e)=>setPhone(e.target.value)}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             id="lname"
             name="phone"
             defaultValue="Doe"
@@ -88,8 +91,8 @@ export default function Signup() {
           <input
             className="input"
             type="password"
-            value={password} 
-            onChange={(e)=>setPassword(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             id="lname"
             name="password"
             defaultValue="Doe"

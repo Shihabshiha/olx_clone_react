@@ -1,23 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Heart from '../../assets/Heart';
-import './Post.css';
-import { FirebaseContext } from '../../store/context';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import React, { useContext, useEffect, useState } from "react";
+import Heart from "../../assets/Heart";
+import "./Post.css";
+import { FirebaseContext } from "../../store/context";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
+import { PostContext } from "../../store/postContext";
 
 const fetchProducts = async (firebase) => {
   const db = getFirestore(firebase);
-  const productsRef = collection(db, 'products');
-  
+  const productsRef = collection(db, "products");
+
   try {
     const querySnapshot = await getDocs(productsRef);
     const products = querySnapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     }));
     return products;
   } catch (error) {
-    console.log('Error fetching products:', error);
+    console.log("Error fetching products:", error);
     return [];
   }
 };
@@ -25,6 +27,8 @@ const fetchProducts = async (firebase) => {
 function Posts() {
   const { firebase } = useContext(FirebaseContext);
   const [products, setProducts] = useState([]);
+  const { postDetails, setPostDetails } = useContext(PostContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,29 +46,32 @@ function Posts() {
           <span>View more</span>
         </div>
         <div className="cards">
-          { products.map(product=>{
+          {products.map((product) => {
             return (
               <div
-              className="card"
-            >
-              <div className="favorite">
-                <Heart></Heart>
+                className="card"
+                onClick={() => {
+                  setPostDetails(product);
+                  navigate("/viewpost");
+                }}
+              >
+                <div className="favorite">
+                  <Heart></Heart>
+                </div>
+                <div className="image">
+                  <img src={product.url} alt="" />
+                </div>
+                <div className="content">
+                  <p className="rate">&#x20B9; {product.price}</p>
+                  <span className="kilometer">{product.category}</span>
+                  <p className="name"> {product.name}</p>
+                </div>
+                <div className="date">
+                  <span>{product.createdAt}</span>
+                </div>
               </div>
-              <div className="image">
-                <img src={product.url} alt="" />
-              </div>
-              <div className="content">
-                <p className="rate">&#x20B9; {product.price}</p>
-                <span className="kilometer">{product.category}</span>
-                <p className="name"> {product.name}</p>
-              </div>
-              <div className="date">
-                <span>{product.createdAt}</span>
-              </div>
-            </div>
-            )
-          })   
-        }
+            );
+          })}
         </div>
       </div>
       <div className="recommendations">

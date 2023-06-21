@@ -1,14 +1,14 @@
-import React,{useState,useContext} from 'react';
-import { FirebaseContext } from '../../store/context';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import Logo from '../../olx-logo.png';
-import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { FirebaseContext } from "../../store/context";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Logo from "../../olx-logo.png";
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
-  const { firebase } =  useContext(FirebaseContext)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { firebase } = useContext(FirebaseContext);
   const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
@@ -16,13 +16,13 @@ function Login() {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('User logged in successfully:', userCredential.user);
-        navigate('/');
+        console.log("User logged in successfully:", userCredential.user);
+        navigate("/");
       })
       .catch((error) => {
-        alert('Login error:', error);
+        alert("Login error:", error);
       });
-  }
+  };
   return (
     <div>
       <div className="loginParentDiv">
@@ -34,7 +34,7 @@ function Login() {
             className="input"
             type="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             id="fname"
             name="email"
             defaultValue="John"
@@ -46,7 +46,7 @@ function Login() {
             className="input"
             type="password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             id="lname"
             name="password"
             defaultValue="Doe"

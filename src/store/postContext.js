@@ -1,14 +1,14 @@
-import {createContext, useState} from 'react'
+import { createContext, useState } from "react";
 
-export const postContext = createContext(null)
+export const PostContext = createContext(null);
 
-function Post({children}){
-  const [postDetails,setPostDetails] = useState(null)
+function Post({ children }) {
+  const [postDetails, setPostDetails] = useState(null);
   return (
-    <postContext.Provider value={{postDetails,setPostDetails}}>
+    <PostContext.Provider value={{ postDetails, setPostDetails }}>
       {children}
-    </postContext.Provider>
-  )
+    </PostContext.Provider>
+  );
 }
 
-export default Post
+export default Post;
